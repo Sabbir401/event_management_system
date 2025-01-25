@@ -6,6 +6,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 require '../includes/db.php';
+include './navbar.php';
 
 // Check if event ID is provided
 if (!isset($_GET['id'])) {

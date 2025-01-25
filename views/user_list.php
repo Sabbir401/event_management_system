@@ -7,6 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+
 // Check if the logged-in user is an admin
 $user_id = $_SESSION['user_id'];
 $stmt = $pdo->prepare("SELECT role FROM users WHERE id = :id");
@@ -17,6 +18,7 @@ if ($user['role'] !== 'admin') {
     echo "Access denied. Only admins can view this page.";
     exit();
 }
+include './navbar.php';
 
 // Fetch all users
 $stmtUsers = $pdo->query("SELECT id, username, role FROM users ORDER BY username ASC");

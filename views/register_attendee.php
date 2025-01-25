@@ -1,5 +1,6 @@
 <?php
 require '../includes/db.php';
+include './navbar.php';
 
 // Fetch events for the dropdown
 $stmt = $pdo->query("SELECT id, name FROM events ORDER BY name ASC");

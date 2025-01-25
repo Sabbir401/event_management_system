@@ -100,10 +100,6 @@ if ($is_admin) {
             <?php endif; ?>
         </div>
 
-        <?php if ($is_admin): ?>
-            <p><a href="create_event.php" class="btn btn-success">Create New Event</a></p>
-        <?php endif; ?>
-
         <h3>Events</h3>
         <div class="form-group">
             <label for="search">Search Events:</label>
@@ -131,25 +127,51 @@ if ($is_admin) {
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this event?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        $(document).on('click', '.delete-event', function() {
-            const eventId = $(this).data('id');
-            if (confirm('Are you sure you want to delete this event?')) {
+        let eventIdToDelete = null;
+
+        $(document).on('click', '.delete-event', function () {
+            eventIdToDelete = $(this).data('id');
+            $('#deleteModal').modal('show');
+        });
+
+        $('#confirmDelete').on('click', function () {
+            if (eventIdToDelete) {
                 $.ajax({
                     url: '../actions/delete_event.php',
                     type: 'POST',
-                    data: { id: eventId },
-                    success: function(response) {
+                    data: { id: eventIdToDelete },
+                    success: function (response) {
                         const result = JSON.parse(response);
                         if (result.status === 'success') {
-                            alert(result.message);
                             fetchEvents();
                         } else {
                             alert(result.message);
                         }
+                        $('#deleteModal').modal('hide');
                     },
-                    error: function() {
+                    error: function () {
                         alert('An error occurred while deleting the event.');
+                        $('#deleteModal').modal('hide');
                     }
                 });
             }
@@ -160,30 +182,30 @@ if ($is_admin) {
                 url: '../actions/fetch_events.php',
                 type: 'GET',
                 data: { page, query },
-                success: function(response) {
+                success: function (response) {
                     const result = JSON.parse(response);
                     $('#event-table').html(result.eventsHtml);
                     $('#pagination').html(result.paginationHtml);
                 },
-                error: function() {
+                error: function () {
                     alert('Error occurred while fetching events.');
                 }
             });
         }
 
-        $('#search').on('input', function() {
+        $('#search').on('input', function () {
             const query = $(this).val();
             fetchEvents(1, query);
         });
 
-        $(document).on('click', '.pagination a', function(e) {
+        $(document).on('click', '.pagination a', function (e) {
             e.preventDefault();
             const page = $(this).data('page');
             const query = $('#search').val();
             fetchEvents(page, query);
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             fetchEvents();
         });
     </script>

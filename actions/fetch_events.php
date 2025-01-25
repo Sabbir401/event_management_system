@@ -68,6 +68,8 @@ if (empty($events)) {
             $actions .= " <a href='edit_event.php?id=" . $event['id'] . "' class='btn btn-warning btn-sm'>Edit</a>";
             $actions .= " <a href='javascript:void(0)' class='btn btn-danger btn-sm delete-event' data-id='" . $event['id'] . "'>Delete</a>";
             $actions .= " <a href='../actions/download_attendees.php?event_id=" . $event['id'] . "' class='btn btn-secondary btn-sm'>Download CSV</a>";
+        } else {
+            $actions = "<span class='text-muted'>No actions available</span>";
         }
 
         $eventsHtml .= "<tr>
