@@ -35,7 +35,7 @@ $users = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <h1>User Management</h1>
         <p>Only admin users can view this page.</p>
         <table class="table table-bordered">

@@ -21,11 +21,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <head>
     <link rel="icon" href="../assets/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../assets/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-4 fixed-top">
     <a class="navbar-brand" href="#"><img src="../assets/logo.webp" width="40px" height="40px" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

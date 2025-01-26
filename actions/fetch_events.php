@@ -86,7 +86,7 @@ if (empty($events)) {
 $paginationHtml = '<div class="pagination">';
 for ($i = 1; $i <= $totalPages; $i++) {
     $activeClass = ($i == $page) ? 'active' : '';
-    $paginationHtml .= "<a href='javascript:void(0)' class='btn btn-primary btn-sm m-1 $activeClass' data-page='$i'>$i</a> ";
+    $paginationHtml .= "<a href='javascript:void(0)' class='btn btn-info btn-sm m-1 $activeClass' data-page='$i'>$i</a> ";
 }
 $paginationHtml .= '</div>';
 
