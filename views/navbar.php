@@ -26,33 +26,37 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 px-4 fixed-top">
-    <a class="navbar-brand" href="#"><img src="../assets/logo.webp" width="40px" height="40px" alt=""></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : '' ?>" href="dashboard.php">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link <?= $current_page == 'register_attendee.php' ? 'active' : '' ?>" href="register_attendee.php">Attendee Registration</a>
-            </li>
-            <?php if ($is_admin): ?>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../assets/logo.webp" width="40" height="40" alt="Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link <?= $current_page == 'user_list.php' ? 'active' : '' ?>" href="user_list.php">User List</a>
+                    <a class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : '' ?>" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= $current_page == 'create_event.php' ? 'active' : '' ?>" href="create_event.php">Create Event</a>
+                    <a class="nav-link <?= $current_page == 'register_attendee.php' ? 'active' : '' ?>" href="register_attendee.php">Attendee Registration</a>
                 </li>
-            <?php endif; ?>
-        </ul>
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-            </li>
-        </ul>
+                <?php if ($is_admin): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page == 'user_list.php' ? 'active' : '' ?>" href="user_list.php">User List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page == 'create_event.php' ? 'active' : '' ?>" href="create_event.php">Create Event</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 

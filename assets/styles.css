@@ -15,3 +15,14 @@ footer a:hover {
 .container{
     margin-top: 100px;
 }
+
+
+.carousel-control-prev-icon {
+    background-color: black !important; 
+    border-radius: 50%; 
+}
+
+.carousel-control-next-icon {
+    background-color: black !important; 
+    border-radius: 50%; 
+}

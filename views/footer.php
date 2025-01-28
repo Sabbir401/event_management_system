@@ -10,9 +10,9 @@
             <div class="col-md-4">
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="dashboard.php" class="text-white text-decoration-none">Dashboard</a></li>
-                    <li><a href="register_attendee.php" class="text-white text-decoration-none">Register Attendees</a></li>
-                    <li><a href="contact.php" class="text-white text-decoration-none">Contact Us</a></li>
+                    <li><a href="./views/dashboard.php" class="text-white text-decoration-none">Dashboard</a></li>
+                    <li><a href="./views/register_attendee.php" class="text-white text-decoration-none">Register Attendees</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-md-4">
