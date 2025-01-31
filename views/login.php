@@ -32,8 +32,8 @@
                                         <button type="submit" class="btn btn-success btn-block">login</button>
                                     </div>
 
-                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="./login.php"
-                                            class="fw-bold text-body"><u>Login here</u></a></p>
+                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="./register.php"
+                                            class="fw-bold text-body"><u>Sing Up</u></a></p>
 
                                 </form>
 
