@@ -2,9 +2,12 @@
 session_start();
 require '../includes/db.php';
 
+header('Content-Type: application/json'); // Set JSON response header
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $email = trim($_POST['email']);
     $password = $_POST['password'];
+
 
     try {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
@@ -15,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
-            header("Location: ../views/dashboard.php"); // Redirect to dashboard
+            echo json_encode(['status' => 'success', 'message' => 'Login successful.']);
         } else {
-            $_SESSION['error'] = "Invalid email or password.";
-            header("Location: ../views/login.php");
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
         }
     } catch (PDOException $e) {
-        $_SESSION['error'] = "Login failed: " . $e->getMessage();
-        header("Location: ../views/login.php");
+        echo json_encode(['status' => 'error', 'message' => 'Login failed: ' . $e->getMessage()]);
     }
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
 }
 ?>

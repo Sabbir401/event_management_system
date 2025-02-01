@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../assets/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <section class="vh-100 mt-5">
@@ -14,29 +15,25 @@
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
                         <div class="card" style="border-radius: 15px;">
                             <div class="card-body p-5">
-                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>
-
-                                <form action="../actions/login_action.php" method="POST">
-
+                                <h2 class="text-uppercase text-center mb-5">Login</h2>
+                                <div id="message"></div>
+                                <form id="login-form">
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                                        <label class="form-label" for="email">Your Email</label>
                                         <input type="email" name="email" id="email" class="form-control form-control-lg" required/>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form3Example4cg">Password</label>
+                                        <label class="form-label" for="password">Password</label>
                                         <input type="password" name="password" id="password" class="form-control form-control-lg" required/>
                                     </div>
 
                                     <div class="d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-success btn-block">login</button>
+                                        <button type="submit" class="btn btn-success btn-block">Login</button>
                                     </div>
 
-                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="./register.php"
-                                            class="fw-bold text-body"><u>Sing Up</u></a></p>
-
+                                    <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="./register.php" class="fw-bold text-body"><u>Sign Up</u></a></p>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -44,5 +41,29 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $("#login-form").on("submit", function(event) {
+            event.preventDefault();
+            var email = $("#email").val();
+            var password = $("#password").val();
+
+            $.ajax({
+                url: "../actions/login_action.php",
+                type: "POST",
+                data: $(this).serialize(),
+                success: function(response) {
+                    if (response.status === "success") {
+                        window.location.href = "../views/dashboard.php";
+                    } else {
+                        $("#message").html('<div class="alert alert-danger">' + response.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $("#message").html('<div class="alert alert-danger">An error occurred while processing your request.</div>');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
