@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $user = 'root';
-$password = '';
+$password = '123';
 $dbname = 'event_management'; // Replace with your database name if different
 
 try {

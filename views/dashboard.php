@@ -100,10 +100,11 @@ if ($is_admin) {
             <?php endif; ?>
         </div>
 
-        <h3>Events</h3>
-        <div class="form-group">
-            <label for="search">Search Events:</label>
-            <input type="text" id="search" class="form-control" placeholder="Type to search events...">
+        <div class="d-flex justify-content-between">
+            <h3>Events</h3>
+            <div class="form-group">
+                <input type="text" id="search" class="form-control" placeholder="Type to search events...">
+            </div>
         </div>
 
         <table class="table table-bordered">
@@ -149,18 +150,20 @@ if ($is_admin) {
     <script>
         let eventIdToDelete = null;
 
-        $(document).on('click', '.delete-event', function () {
+        $(document).on('click', '.delete-event', function() {
             eventIdToDelete = $(this).data('id');
             $('#deleteModal').modal('show');
         });
 
-        $('#confirmDelete').on('click', function () {
+        $('#confirmDelete').on('click', function() {
             if (eventIdToDelete) {
                 $.ajax({
                     url: '../actions/delete_event.php',
                     type: 'POST',
-                    data: { id: eventIdToDelete },
-                    success: function (response) {
+                    data: {
+                        id: eventIdToDelete
+                    },
+                    success: function(response) {
                         const result = JSON.parse(response);
                         if (result.status === 'success') {
                             fetchEvents();
@@ -169,7 +172,7 @@ if ($is_admin) {
                         }
                         $('#deleteModal').modal('hide');
                     },
-                    error: function () {
+                    error: function() {
                         alert('An error occurred while deleting the event.');
                         $('#deleteModal').modal('hide');
                     }
@@ -181,31 +184,34 @@ if ($is_admin) {
             $.ajax({
                 url: '../actions/fetch_events.php',
                 type: 'GET',
-                data: { page, query },
-                success: function (response) {
+                data: {
+                    page,
+                    query
+                },
+                success: function(response) {
                     const result = JSON.parse(response);
                     $('#event-table').html(result.eventsHtml);
                     $('#pagination').html(result.paginationHtml);
                 },
-                error: function () {
+                error: function() {
                     alert('Error occurred while fetching events.');
                 }
             });
         }
 
-        $('#search').on('input', function () {
+        $('#search').on('input', function() {
             const query = $(this).val();
             fetchEvents(1, query);
         });
 
-        $(document).on('click', '.pagination a', function (e) {
+        $(document).on('click', '.pagination a', function(e) {
             e.preventDefault();
             const page = $(this).data('page');
             const query = $('#search').val();
             fetchEvents(page, query);
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             fetchEvents();
         });
     </script>

@@ -18,42 +18,6 @@ if ($user['role'] !== 'admin') {
     echo "Access denied. Only admins can view this page.";
     exit();
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate inputs
-    $name = trim($_POST['name']);
-    $description = trim($_POST['description']);
-    $date = $_POST['date'];
-    $time = $_POST['time'];
-    $max_capacity = intval($_POST['max_capacity']);
-
-    $errors = [];
-
-    if (empty($name)) $errors[] = 'Event name is required.';
-    if (empty($date)) $errors[] = 'Event date is required.';
-    if (empty($time)) $errors[] = 'Event time is required.';
-    if ($max_capacity <= 0) $errors[] = 'Max capacity must be a positive number.';
-
-    if (empty($errors)) {
-        // Save to database
-        $stmt = $pdo->prepare("
-            INSERT INTO events (name, description, date, time, max_capacity, created_by) 
-            VALUES (:name, :description, :date, :time, :max_capacity, :created_by)
-        ");
-        $stmt->execute([
-            ':name' => $name,
-            ':description' => $description,
-            ':date' => $date,
-            ':time' => $time,
-            ':max_capacity' => $max_capacity,
-            ':created_by' => $_SESSION['user_id']
-        ]);
-
-        $_SESSION['success'] = 'Event created successfully!';
-        header('Location: dashboard.php');
-        exit();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -76,43 +40,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-body p-5">
                                 <h2 class="text-uppercase text-center mb-5">Create Event</h2>
 
-                                <?php if (!empty($errors)): ?>
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            <?php foreach ($errors as $error): ?>
-                                                <li><?php echo htmlspecialchars($error); ?></li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                <?php endif; ?>
+                                <div id="message"></div> <!-- Message container -->
 
-                                <form action="" method="POST">
+                                <form id="create-event-form">
                                     <div class="form-group">
                                         <label for="name">Event Name</label>
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="<?php echo isset($name) ? htmlspecialchars($name) : ''; ?>" required>
+                                        <input type="text" class="form-control" id="name" name="name" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" id="description" name="description"><?php echo isset($description) ? htmlspecialchars($description) : ''; ?></textarea>
+                                        <textarea class="form-control" id="description" name="description"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="date">Date</label>
-                                        <input type="date" class="form-control" id="date" name="date"
-                                            value="<?php echo isset($date) ? htmlspecialchars($date) : ''; ?>" required>
+                                        <input type="date" class="form-control" id="date" name="date" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="time">Time</label>
-                                        <input type="time" class="form-control" id="time" name="time"
-                                            value="<?php echo isset($time) ? htmlspecialchars($time) : ''; ?>" required>
+                                        <input type="time" class="form-control" id="time" name="time" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="max_capacity">Max Capacity</label>
-                                        <input type="number" class="form-control" id="max_capacity" name="max_capacity"
-                                            value="<?php echo isset($max_capacity) ? htmlspecialchars($max_capacity) : ''; ?>" required>
+                                        <input type="number" class="form-control" id="max_capacity" name="max_capacity" required>
                                     </div>
-                                    <button type="submit" class="btn btn-success">Create Event</button>
-                                    <a href="dashboard.php" class="btn btn-secondary">Cancel</a>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-success">Create Event</button>
+                                        <a href="dashboard.php" class="btn btn-secondary ml-2">Cancel</a>
+                                    </div>
                                 </form>
 
                             </div>
@@ -122,6 +76,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#create-event-form').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '../actions/create_event_action.php', 
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    try {
+                        if (response && response.status) {
+                            $('#message').html(
+                                `<div class="alert alert-${response.status}">${response.message}</div>`
+                            );
+                            if (response.status === 'success') {
+                                $('#create-event-form')[0].reset(); // Reset form on success
+                            }
+                        } else {
+                            $('#message').html('<div class="alert alert-danger">Unexpected response format.</div>');
+                        }
+                    } catch (error) {
+                        $('#message').html('<div class="alert alert-danger">Error processing server response.</div>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#message').html('<div class="alert alert-danger">An error occurred while processing your request.</div>');
+                    console.error('AJAX Error:', error);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
