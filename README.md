@@ -35,3 +35,7 @@ Go to:
 http://localhost/event_management_system/index.html
 ```
 
+### 4. Live link & Credential
+live: sabbir343.great-site.net
+admin: ahmedsabbir401@gmail.com
+password: 1234
