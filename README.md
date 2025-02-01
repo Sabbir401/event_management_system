@@ -16,15 +16,22 @@ Before running the project, ensure you have the following installed:
 ```bash
 git clone https://github.com/Sabbir401/event_management_system.git
 cd event-management-system
+```
 
 ### 2. Create a Database
-Create a database in the MYSQL Server
+Create a database in the MySQL Server:
+
 ```bash
-CREATE DATABASE event_management
+CREATE DATABASE event_management;
+```
 
 ### 3. Import the Database
-Import the database to your MYSQL Server. The database is located in the database folder.
+Import the database to your MySQL Server. The database is located in the `database` folder.
 
-### 4. Run the project
-goto http://localhost/event_management_system/index.html
+### 4. Run the Project
+Go to:
+
+```
+http://localhost/event_management_system/index.html
+```
 
